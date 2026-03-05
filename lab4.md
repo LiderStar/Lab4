@@ -26,13 +26,13 @@ classDiagram
     class TaxiOrchestrator {
         <<Orchestration>>
         +Port: 8089
-        +RestTemplate (LoadBalanced)
+        +RestTemplate LoadBalanced
         +requestRide()
         +completeRide()
     }
 
     class RideService {
-        <<Core Service>>
+        <<CoreService>>
         +Port: 8082
         +ConcurrentHashMap storage
         +saveRide()
@@ -40,7 +40,7 @@ classDiagram
     }
 
     class DriverService {
-        <<Core Service>>
+        <<CoreService>>
         +Port: 8081
         +DriverStatusMap
         +getAvailable()
@@ -48,26 +48,27 @@ classDiagram
     }
 
     class PaymentService {
-        <<Core Service>>
+        <<CoreService>>
         +Port: 8083
         +TransactionHistory
         +process()
     }
 
     class PassengerService {
-        <<Core Service>>
+        <<CoreService>>
         +Port: 8084
         +RideHistory
         +addToHistory()
     }
 
-    %% Зв'язки
-    Client ..> APIGateway : 1. Зовнішній запит
-    APIGateway --|> DiscoveryService : 2. Service Lookup
-    APIGateway --> TaxiOrchestrator : 3. Dynamic Route (lb://)
-    
-    TaxiOrchestrator --|> DiscoveryService : 4. Register/Lookup
-    TaxiOrchestrator o-- RideService : Координує
-    TaxiOrchestrator o-- DriverService : Координує
-    TaxiOrchestrator o-- PaymentService : Координує
-    TaxiOrchestrator o-- PassengerService : Координує
+    %% Relationships
+    Client ..> APIGateway : External request
+    APIGateway --> DiscoveryService : Service lookup
+    APIGateway --> TaxiOrchestrator : Dynamic route lb
+    TaxiOrchestrator --> DiscoveryService : Register lookup
+
+    TaxiOrchestrator o-- RideService : Coordinates
+    TaxiOrchestrator o-- DriverService : Coordinates
+    TaxiOrchestrator o-- PaymentService : Coordinates
+    TaxiOrchestrator o-- PassengerService : Coordinates
+```
