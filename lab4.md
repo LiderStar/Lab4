@@ -1,3 +1,6 @@
+```mermaid
+classDiagram
+    
     class Client {
         +Browser / Console
         +Port: Random
