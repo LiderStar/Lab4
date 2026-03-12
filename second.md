@@ -1,5 +1,9 @@
 '''mermaid
 
+graph TD
+    %% Вузол Клієнта
+    Client[<b>Taxi Console Client / Browser</b><br/>Port: Random]
+
 
     %% Інфраструктурні сервіси
     subgraph "Infrastructure"
